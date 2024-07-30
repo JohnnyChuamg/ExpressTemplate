@@ -44,11 +44,18 @@
     - 關閉連線,關閉檔案等...操作時, 只要有關<mark>關閉</mark>的動作的callback
     - ex: socket.on('close',<mark>FUNCTION</mark>)
 
+## NodeJS 解讀順序
+- 1. 直譯式語言，整份程式碼會先跑一遍，遇到Sync function會直接處理．
+- 2. 遇到async function 就註冊事件到queue中
+  - ex: setTimeout() 註冊到Timers中
+- 3. 當整份程式碼掃完以後，就會去EventLoop循環．只要有註冊的事件(Callback)還未完成，就會一直循環
+- 4. 當循環得過程中，只要是發現nextTick / microTask的Queue中有還未完成的事件(Callback)，就會優先把該Queue中的事件完成. 再返回原本離開的EventLoop中繼續執行
+
 ## Test Code
 ```javascript
 console.log('start')
 
-process.nextTicket(function(){
+process.nextTick(function(){
     console.log('nextTicket')
 })
 
