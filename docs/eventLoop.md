@@ -1,14 +1,14 @@
 
 ```mermaid
   graph TD;
-    NextTick[NextTick Queue]-->MicroTask[MicroTask Queue]
+    NextTick[nextTick Queue]-->MicroTask[MicroTask Queue]
 
     NextTick--do loop until clear this queue-->NextTick
 
     MicroTask--do loop until clear this queue-->MicroTask
     
       subgraph TaskQueue
-          Timers[Timers]-->PC[PendingCallback]-->Idle[Idle,prepare]
+          Timers[Timers]-->PC[Pending Callback]-->Idle[Idle,prepare]
           Idle-->Polling[Polling]-->Check[Check]-->CloseEventCallback[CloseEventCallback]
       end
     MicroTask-->TaskQueue
